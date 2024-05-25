@@ -55,7 +55,7 @@ def generate_response(reference_text, user_input, image_url=None):
     start_time = time.time()
     with st.spinner("Thinking..."):
         res = model.invoke([
-            SystemMessage(content=f"""you are a student helper, helping answer and studying digital communication, if you are not sure about answers say i do not know, response with elaboration like a professor, alwayes try to get the answer from the documents, and if you do not find an answer, say what you know about the question, never say  The provided document snippets don't ... or any other meaning. :references :{reference_text}"""),
+            SystemMessage(content=f"""you are a student helper, helping answering and studying digital communication, response with elaboration like a professor, alwayes try to get the answer from the documents, and if you do not find an answer, say what you know about the question, never say The provided document snippets don't, I do not know ... or any other meaning. :references :{reference_text}"""),
             message
         ])
     end_time = time.time()
@@ -63,7 +63,7 @@ def generate_response(reference_text, user_input, image_url=None):
     return res.content, elapsed_time
 
 def rag_with_text(user_ask_text, vectorstore):
-    docs = vectorstore.similarity_search(user_ask_text, k=8)
+    docs = vectorstore.similarity_search(user_ask_text, k=35)
     return docs
 
 def main():
