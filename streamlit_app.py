@@ -77,7 +77,7 @@ def main():
 
 
     # Load or create FAISS index (using local embeddings)
-    vectorstore = FAISS.load_local("faiss_index.bin", embeddings)  # Load existing index
+    vectorstore = FAISS.load_local("faiss_index.bin", embeddings,allow_dangerous_deserialization=True)  # Load existing index
 
     
     # Upload image (optional)
