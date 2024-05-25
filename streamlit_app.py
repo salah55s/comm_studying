@@ -13,7 +13,7 @@ import time
 
 # Set up Google API key
 if "GOOGLE_API_KEY" not in os.environ:
-    os.environ["GOOGLE_API_KEY"] = "AIzaSyDdePysSFcpnwI_2HbPdM07pndliZ-rnb4" 
+    os.environ["GOOGLE_API_KEY"] = "AIzaSyB5Ia7CePKAyW0MfDVBlCeEw4XgQM8n3z4" 
 
 # Initialize Google GenAI model
 model = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest", convert_system_message_to_human=True)
