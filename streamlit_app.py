@@ -105,7 +105,7 @@ def main():
             response, elapsed_time = generate_response(combined_reference_text, user_input, image_url)
             st.write(f"**Response:**\n{response}")
             st.write(f"**Elapsed Time:** {elapsed_time:.2f} seconds")
-            break
+        break
         if user_input :
             # Get relevant documents from the vector store
             docs = rag_with_text(user_input, vectorstore)
@@ -115,7 +115,7 @@ def main():
             response, elapsed_time = generate_response(combined_reference_text, user_input, image_url)
             st.write(f"**Response:**\n{response}")
             st.write(f"**Elapsed Time:** {elapsed_time:.2f} seconds")
-            break
+        break
         if ocr_text :
             # Get relevant documents from the vector store
             docs = rag_with_text(ocr_text, vectorstore)
@@ -125,7 +125,7 @@ def main():
             response, elapsed_time = generate_response(combined_reference_text, user_input, image_url)
             st.write(f"**Response:**\n{response}")
             st.write(f"**Elapsed Time:** {elapsed_time:.2f} seconds")
-            break
+        break
 
 if __name__ == "__main__":
     main()
