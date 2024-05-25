@@ -93,39 +93,21 @@ def main():
     user_input = st.text_area("Ask me anything about digital communication!", height=200)
     # Generate response and display
     if st.button("Ask"):
-        if user_input and ocr_text:
-            # Get relevant documents from the vector store
-            docs = rag_with_text(user_input, vectorstore)
-            docs += rag_with_text(ocr_text, vectorstore)
-
+        if user_input or ocr_text:
+            # Get relevant documents based on available input
+            docs = []
+            if user_input:
+                docs += rag_with_text(user_input, vectorstore)
+            if ocr_text:
+                docs += rag_with_text(ocr_text, vectorstore)
+    
             # Combine retrieved documents into a single string
             combined_reference_text = "\n".join([doc.page_content for doc in docs])
-
+    
             # Generate response with combined reference text
             response, elapsed_time = generate_response(combined_reference_text, user_input, image_url)
             st.write(f"**Response:**\n{response}")
             st.write(f"**Elapsed Time:** {elapsed_time:.2f} seconds")
-    break
-        if user_input :
-            # Get relevant documents from the vector store
-            docs = rag_with_text(user_input, vectorstore)
-            # Combine retrieved documents into a single string
-            combined_reference_text = "\n".join([doc.page_content for doc in docs])
-            # Generate response with combined reference text
-            response, elapsed_time = generate_response(combined_reference_text, user_input, image_url)
-            st.write(f"**Response:**\n{response}")
-            st.write(f"**Elapsed Time:** {elapsed_time:.2f} seconds")
-    break
-        if ocr_text :
-            # Get relevant documents from the vector store
-            docs = rag_with_text(ocr_text, vectorstore)
-            # Combine retrieved documents into a single string
-            combined_reference_text = "\n".join([doc.page_content for doc in docs])
-            # Generate response with combined reference text
-            response, elapsed_time = generate_response(combined_reference_text, user_input, image_url)
-            st.write(f"**Response:**\n{response}")
-            st.write(f"**Elapsed Time:** {elapsed_time:.2f} seconds")
-    break
 
 if __name__ == "__main__":
     main()
