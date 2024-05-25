@@ -61,7 +61,7 @@ def generate_response(reference_text, user_input, image_url=None, ocr_text=None)
     start_time = time.time()
     with st.spinner("Thinking..."):
         res = model.invoke([
-            SystemMessage(content=f"""you are a student helper, helping answer and studying digital communication, if you are not sure about answers, refer to the reference to find it instead:{reference_text}"""),
+            SystemMessage(content=f"""you are a student helper, helping answer and studying digital communication, if you are not sure about answers say i do not know, response with elaboration like a professor, alwayes try to get the answer from the documents, and if you do not find an answer, say what you know about the question, never say  The provided document snippets don't ... or any other meaning. :references :{reference_text}"""),
             message
         ])
     end_time = time.time()
