@@ -2,7 +2,6 @@ import streamlit as st
 from langchain_community.vectorstores import FAISS
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_community.vectorstores import FAISS
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_core.messages import HumanMessage, SystemMessage
 import base64
@@ -62,19 +61,17 @@ def generate_response(reference_text, user_input, image_url=None):
     end_time = time.time()
     elapsed_time = end_time - start_time
     return res.content, elapsed_time
-def rag_with_text(user_ask_text,vectorstore):
+
+def rag_with_text(user_ask_text, vectorstore):
     docs = vectorstore.similarity_search(user_ask_text, k=8)
     return docs
 
 def main():
-    qa=[]
     st.title("Digital Communication Assistant")
 
-
     # Load or create FAISS index (using local embeddings)
-    vectorstore = FAISS.load_local("faiss_index.bin", embeddings,allow_dangerous_deserialization=True)  # Load existing index
+    vectorstore = FAISS.load_local("faiss_index.bin", embeddings, allow_dangerous_deserialization=True)  # Load existing index
 
-    
     # Upload image (optional)
     uploaded_file = st.file_uploader("Upload an image (optional)", type=["jpg", "jpeg", "png"])
     image_url = None
@@ -90,18 +87,23 @@ def main():
 
         # Perform OCR on the image
         ocr_text = ocr_image(image_bytes)
-        #st.write(f"**OCR Text:**\n{ocr_text}")
-        qa+=rag_with_text(ocr_text,vectorstore)
+        # st.write(f"**OCR Text:**\n{ocr_text}")  # You can uncomment this line to display OCR text 
 
     # Text input
     user_input = st.text_area("Ask me anything about digital communication!", height=200)
     # Generate response and display
     if st.button("Ask"):
         if user_input:
-            qa+=rag_with_text(user_input,vectorstore)
-        response, elapsed_time = generate_response(qa, user_input, image_url)
-        st.write(f"**Response:**\n{response}")
-        st.write(f"**Elapsed Time:** {elapsed_time:.2f} seconds")
+            # Get relevant documents from the vector store
+            docs = rag_with_text(user_input, vectorstore)
+
+            # Combine retrieved documents into a single string
+            combined_reference_text = "\n".join([doc.page_content for doc in docs])
+
+            # Generate response with combined reference text
+            response, elapsed_time = generate_response(combined_reference_text, user_input, image_url)
+            st.write(f"**Response:**\n{response}")
+            st.write(f"**Elapsed Time:** {elapsed_time:.2f} seconds")
 
 if __name__ == "__main__":
     main()
