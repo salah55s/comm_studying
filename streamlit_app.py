@@ -93,7 +93,7 @@ def main():
     user_input = st.text_area("Ask me anything about digital communication!", height=200)
     # Generate response and display
     if st.button("Ask"):
-        if user_input && ocr_text:
+        if user_input and ocr_text:
             # Get relevant documents from the vector store
             docs = rag_with_text(user_input, vectorstore)
             docs += rag_with_text(ocr_text, vectorstore)
