@@ -1,19 +1,16 @@
 import streamlit as st
 from langchain_community.vectorstores import FAISS
-from langchain.text_splitter import CharacterTextSplitter
 import os
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import CohereEmbeddings
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain.chains import RetrievalQA
 from langchain_core.messages import HumanMessage, SystemMessage
 import base64
 import time
 
 # Set up Google API key
 if "GOOGLE_API_KEY" not in os.environ:
-    os.environ["GOOGLE_API_KEY"] = "AIzaSyB5Ia7CePKAyW0MfDVBlCeEw4XgQM8n3z4" 
+    os.environ["GOOGLE_API_KEY"] = "AIzaSyCEdziXn1Lm_B6H7WluHG74j14LWbZlXSY" 
 
 # Initialize Google GenAI model
 model = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest", convert_system_message_to_human=True)
@@ -43,7 +40,7 @@ def ocr_image(image_bytes):
         ])
     return res.content
 
-def generate_response(reference_text, user_input, image_url=None, ocr_text=None):
+def generate_response(reference_text, user_input, image_url=None):
     """Generates a response from the LLM."""
     message = HumanMessage(
         content=[
@@ -55,8 +52,6 @@ def generate_response(reference_text, user_input, image_url=None, ocr_text=None)
     )
     if image_url:
         message.content.append({"type": "image_url", "image_url": image_url})
-    if ocr_text:
-        message.content.append({"type": "text", "text": ocr_text})
 
     start_time = time.time()
     with st.spinner("Thinking..."):
@@ -68,7 +63,7 @@ def generate_response(reference_text, user_input, image_url=None, ocr_text=None)
     elapsed_time = end_time - start_time
     return res.content, elapsed_time
 def rag_with_text(user_ask_text,vectorstore):
-    docs = vectorstore.similarity_search(user_ask_text, k=10)
+    docs = vectorstore.similarity_search(user_ask_text, k=8)
     return docs
 
 def main():
@@ -77,7 +72,7 @@ def main():
 
 
     # Load or create FAISS index (using local embeddings)
-    vectorstore = FAISS.load_local("faiss_index.bin", embeddings,allow_dangerous_deserialization=True)  # Load existing index
+    vectorstore = FAISS.load_local("faiss_index.bin", embeddings)  # Load existing index
 
     
     # Upload image (optional)
@@ -104,7 +99,7 @@ def main():
     if st.button("Ask"):
         if user_input:
             qa+=rag_with_text(user_input,vectorstore)
-        response, elapsed_time = generate_response(qa, user_input, image_url, ocr_text)
+        response, elapsed_time = generate_response(qa, user_input, image_url)
         st.write(f"**Response:**\n{response}")
         st.write(f"**Elapsed Time:** {elapsed_time:.2f} seconds")
 
