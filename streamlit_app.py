@@ -138,7 +138,7 @@ def main():
     if subject == "Digital Communication":
         st.write("Developed by: **Salah Eldin**") 
     elif subject == "Control Systems":
-        st.write("Developed by: **Salah Eldin ,Karem Hisham, Abdelrahman Sleem, Mohsen Mohamed**") 
+        st.write("Developed by: **Salah Eldin ,Karem Hisham, Abdulrahman Sleem, Mohsen Mohamed**") 
     
 
 # Run the app
