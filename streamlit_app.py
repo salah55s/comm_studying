@@ -89,7 +89,9 @@ def main():
     if subject == "Digital Communication":
         vectorstore = FAISS.load_local("faiss_index.bin", embeddings, allow_dangerous_deserialization=True)
     else:  # Control Systems
-        vectorstore = FAISS.load_local("faiss_index2.bin", embeddings, allow_dangerous_deserialization=True) 
+        vectorstore = FAISS.load_local("faiss_index2.bin", embeddings, allow_dangerous_deserialization=True)
+        vectorstore2 = FAISS.load_local("faiss_index22.bin", embeddings, allow_dangerous_deserialization=True)
+        vectorstore.merge_from(vectorstore2)
 
     # Upload image (optional)
     uploaded_file = st.file_uploader("Upload an image (optional)", type=["jpg", "jpeg", "png"])
