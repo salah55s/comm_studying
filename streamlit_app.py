@@ -124,7 +124,7 @@ def main():
        # Display developer credits based on subject
     if subject == "Control Systems":
         st.markdown("---")  # Separator
-        st.markdown("**Download Additional Resources:**")
+        st.markdown("**Download Additional Resources:** the rest is coming")
         # Replace with actual file paths:
         file_paths = [
             "Part_3.pdf",
