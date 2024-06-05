@@ -55,7 +55,7 @@ if api_key is None:
     if api_key_option == "Use my own API key":
         api_key = get_api_key_from_user()
     else:
-        api_key = "AIzaSyDdePysSFcpnwI_2HbPdM07pndliZ-rnb4"  # Default API key
+        api_key = "AIzaSyCEdziXn1Lm_B6H7WluHG74j14LWbZlXSY"  # Default API key
         st.info("Using the default API key. This may be subject to rate limits and speed.")
 
 if api_key:
