@@ -131,7 +131,7 @@ if api_key:
     def rag_with_text(user_ask_text, vectorstore):
         """Performs RAG using FAISS index."""
         # For Electronics, search for images based on OCR text
-        docs = vectorstore.similarity_search(user_ask_text, k=10) 
+        docs = vectorstore.similarity_search(user_ask_text, k=15) 
         return docs
 
     # Function to provide a downloadable file link
