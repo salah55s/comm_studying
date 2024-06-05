@@ -185,21 +185,21 @@ if api_key:
                 ocr_text = ocr_image(image_bytes)
 
         elif image_input_method == "Paste an image":
-            # Use the paste_image_button component
-            paste_result = paste_image_button("Click to Paste Image") 
-            if paste_result:
-                if paste_result.image_data is not None:
-                    st.image(paste_result.image_data, caption="Pasted Image")
-                    
-                    # Process the pasted image
-                    image_url = paste_result.image_data  # Assuming it's a PIL Image
-                    # Convert PIL Image to bytes for OCR
-                    img_bytes = io.BytesIO()
-                    image_url.save(img_bytes, format='PNG')
-                    image_bytes = img_bytes.getvalue()
-                    ocr_text = ocr_image(image_bytes) 
-                else:
-                    st.warning("No image pasted.")
+                paste_result = paste_image_button("Click to Paste Image") 
+                if paste_result:
+                    if paste_result.image_data is not None:
+                        st.image(paste_result.image_data, caption="Pasted Image")
+                        
+                        # Convert PIL Image to bytes for OCR
+                        img_bytes = io.BytesIO()
+                        paste_result.image_data.save(img_bytes, format='PNG')
+                        image_bytes = img_bytes.getvalue()
+        
+                        # Keep image_url as a string for base64 encoded data
+                        image_url = f"data:image/png;base64,{base64.b64encode(image_bytes).decode()}"  
+                        ocr_text = ocr_image(image_bytes) 
+                    else:
+                        st.warning("No image pasted.")
 
         # Text Input
         user_input = st.text_area(f"Ask me anything about {subject}!", height=200)
