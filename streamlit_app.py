@@ -138,7 +138,7 @@ if api_key:
             faiss_index = FAISS.load_local("faiss_index3.bin", embeddings)
             docs = faiss_index.similarity_search(user_ask_text, k=3)
         else:
-            docs = vectorstore.similarity_search(user_ask_text, k=3) 
+            docs = vectorstore.similarity_search(user_ask_text, k=10) 
         return docs
 
     # Function to provide a downloadable file link
@@ -159,12 +159,12 @@ if api_key:
 
         # Load the appropriate FAISS index based on subject selection
         if subject == "Logic design":
-            vectorstore = FAISS.load_local("faiss_index4.bin", embeddings) 
+            vectorstore = FAISS.load_local("faiss_index4.bin", embeddings,allow_dangerous_deserialization=True) 
         elif subject == "Digital Communication":
-            vectorstore = FAISS.load_local("faiss_index.bin", embeddings)
+            vectorstore = FAISS.load_local("faiss_index.bin", embeddings,allow_dangerous_deserialization=True)
         else:  # Control Systems
-            vectorstore = FAISS.load_local("faiss_index2.bin", embeddings)
-            vectorstore2 = FAISS.load_local("faiss_index22.bin", embeddings)
+            vectorstore = FAISS.load_local("faiss_index2.bin", embeddings,allow_dangerous_deserialization=True)
+            vectorstore2 = FAISS.load_local("faiss_index22.bin", embeddings,allow_dangerous_deserialization=True)
             vectorstore.merge_from(vectorstore2)
 
         # Image Input Options
