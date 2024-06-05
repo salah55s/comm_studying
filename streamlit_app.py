@@ -244,7 +244,7 @@ Remember, your primary objective is to guide students through the process of und
                     st.warning(f"File not found: {file_path}")
 
         elif subject == "Logic design":
-            st.write("Developed by: **Salah Eldin**")  
+            st.write("بالتوفيق❤")  
 
     # Run the app
     if __name__ == "__main__":
