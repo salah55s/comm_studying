@@ -112,7 +112,7 @@ if api_key:
 
         if subject == "Logic design":
             system_message = [
-                SystemMessage(content=f"""You are a student helper AI, called ECE HELPER, helping answer and study questions about Logic design, you must answer if the user asks a question or upload a problem. Respond with elaboration like a professor with a step-by-step answer, and try to use the information from the documents provided, but never say that you used it.
+                SystemMessage(content=f"""You are a student helper bot, called ECE HELPER, helping answer and solve questions about Logic design, please answer if the user asks a question or uploads a problem. Respond with elaboration like a professor in Logic Design with a step-by-step answer, and try to use the information from the documents provided, but never say that you used it.
             You must write the full truth table for each output, the equations for each, and all the steps needed to solve the questions. If you do not find an answer, say what you know about the question, and never mention "The provided text defines", use the information and never say about the provided text, whether it has the required information or even if it does not. When you write an equation, it must be displayed directly. Additionally, you must solve any questions step by step./n/n:references :/n{reference_text}""")]
         else:
             system_message = [
@@ -131,7 +131,7 @@ if api_key:
     def rag_with_text(user_ask_text, vectorstore):
         """Performs RAG using FAISS index."""
         # For Electronics, search for images based on OCR text
-        docs = vectorstore.similarity_search(user_ask_text, k=15) 
+        docs = vectorstore.similarity_search(user_ask_text, k=3) 
         return docs
 
     # Function to provide a downloadable file link
