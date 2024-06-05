@@ -61,10 +61,13 @@ if api_key is None:
 if api_key:
     os.environ["GOOGLE_API_KEY"] = api_key 
     # Initialize Google GenAI model
-    model = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", convert_system_message_to_human=True,safety_settings={HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+    model_1 = ChatGoogleGenerativeAI(model="gemini-1.5-pro-latest", convert_system_message_to_human=True,safety_settings={HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
                                                                                                                         HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
                                                                                                                         HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
-                                                                                                                        HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE},)
+    model_2 = ChatGoogleGenerativeAI(model="gemini-1.5-flash-latest", convert_system_message_to_human=True,safety_settings={HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+                                                                                                                        HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+                                                                                                                        HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+                                                                                                                        HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE},)                                                                                                                        HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE},)
 
     # Load local embeddings
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
@@ -85,7 +88,7 @@ if api_key:
             ]
         )
         with st.spinner("OCR is running..."):
-            res = model.invoke([
+            res = model_2.invoke([
                 SystemMessage(content="You are an expert at reading text from images. If you find a graph or an equation, clear it, and if it's a circuit, write it's name, type and any information about it"),
                 message
             ])
@@ -117,7 +120,7 @@ if api_key:
         
         start_time = time.time()
         with st.spinner("Thinking..."):
-            res = model.invoke(system_message + [message])
+            res = model_1.invoke(system_message + [message])
         end_time = time.time()
         elapsed_time = end_time - start_time
         return res.content, elapsed_time
