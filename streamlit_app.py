@@ -105,18 +105,11 @@ if api_key:
         message = HumanMessage(content=message_content)
         
 
-        if subject == "Electronics":
+        if subject == "Logic design":
             system_message = [
-                SystemMessage(content=f"""You are a student helper AI, specializing in answering and studying questions related to advanced electronics circuits. Respond with detailed explanations as a professor would, using examples and information from the provided documents without explicitly mentioning them. If you cannot find an answer, provide what you know about the question without referencing the provided text, regardless of whether it contains the required information or not.
-
-    When you write an equation, it must be displayed directly. Additionally, you must solve any questions provided to you step by step, whether they are in the form of an image or text.
-
-    You must use only circuit theorems and laws to provide a step-by-step solution. The references may contain equations and information about the circuit. Focus on every detail in the circuit image, never missing any information in the circuit images. Pay close attention to the directions and values of all nodes in the images. Your way of solving is to simplify the circuit first, if needed, then you must elaborate about each step and calculate it.
-
-    References: {reference_text}
-
-    You will have images as References, which is different than the user ask.""")
-            ]
+                SystemMessage(content=f"""You are a student helper AI, called ECE HELPER, helping answer and study questions about the chosen subject, you must answer if the user asks a question or upload a problem. Respond with elaboration like a professor with a step-by-step answer, and try to use the information from the documents provided, but never say that you used it.
+            If it's a logic design question, write the full truth table and all the steps needed to solve the questions.
+            If you do not find an answer, say what you know about the question, and never mention "The provided text defines", use the information and never say about the provided text, whether it has the required information or even if it does not. When you write an equation, it must be displayed directly. Additionally, you must solve any questions step by step, whether they are in the form of an image or text./n/n:references :/n{reference_text}""")]
         else:
             system_message = [
                 SystemMessage(content=f"""You are a student helper AI, called ECE HELPER, helping answer and study questions about the chosen subject, you must answer if the user asks a question or upload a problem. Respond with elaboration like a professor with a step-by-step answer, and try to use the information from the documents provided, but never say that you used it. 
@@ -134,11 +127,7 @@ if api_key:
     def rag_with_text(user_ask_text, vectorstore):
         """Performs RAG using FAISS index."""
         # For Electronics, search for images based on OCR text
-        if "Electronics" in user_ask_text.lower():
-            faiss_index = FAISS.load_local("faiss_index3.bin", embeddings)
-            docs = faiss_index.similarity_search(user_ask_text, k=3)
-        else:
-            docs = vectorstore.similarity_search(user_ask_text, k=4) 
+        docs = vectorstore.similarity_search(user_ask_text, k=5) 
         return docs
 
     # Function to provide a downloadable file link
