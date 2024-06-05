@@ -145,7 +145,7 @@ Remember, your primary objective is to guide students through the process of und
     def rag_with_text(user_ask_text, vectorstore):
         """Performs RAG using FAISS index."""
         # For Electronics, search for images based on OCR text
-        docs = vectorstore.similarity_search(user_ask_text, k=3) 
+        docs = vectorstore.similarity_search(user_ask_text, k=20) 
         return docs
 
     # Function to provide a downloadable file link
